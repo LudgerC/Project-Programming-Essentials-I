@@ -37,8 +37,9 @@ for(let i = 1; i <= aantalgeschenk; i++)//Geschenk wordt doorgestuurd naar de ma
 }
 
 let totaal = berekenTotaal(geschenkmand);
-console.log(totaal + " test");
+console.log("De waarde van je mand is: " + totaal + "Euro.");
 let totaalBTW = berekenTotaalBTW(geschenkmand);
+let totaal_incl_btw = totaal + totaalBTW;
 console.log(totaalBTW + " test BTW");
 
 function vulGeschenkmand(geschenkmand, geschenk)//Geschenk wordt in de mand gestoken.
@@ -101,10 +102,10 @@ function berekenTotaalBTW(geschenkmand)
                 totaalBTW += w / 100 * 21; 
             break;
             case "B":
-                totaalBTW += b  / 100 * 21; 
+                totaalBTW += b  / 100 * 6; 
             break;
             case "F":
-                totaalBTW += f / 100 * 21; 
+                totaalBTW += f / 100 * 12; 
             break;
 
         }
