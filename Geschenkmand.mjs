@@ -40,7 +40,7 @@ let totaal = berekenTotaal(geschenkmand);
 console.log("De waarde van je mand is: " + totaal + "Euro.");
 let totaalBTW = berekenTotaalBTW(geschenkmand);
 let totaal_incl_btw = totaal + totaalBTW;
-console.log(totaalBTW + " test BTW");
+console.log();
 
 function vulGeschenkmand(geschenkmand, geschenk)//Geschenk wordt in de mand gestoken.
 {
