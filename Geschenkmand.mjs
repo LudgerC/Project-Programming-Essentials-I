@@ -3,8 +3,10 @@ import { stdin as input, stdout as output } from 'node:process';
 const userInput = readline.createInterface({ input, output });
 
 
-let geschenkmand = [];//De array die de geschenk zal bewaren.
+let geschenkmand = [];//De array die de geschenk ga bewaren.
 let aantalgeschenk;
+let lotterijkans = [];
+let lotterijgeschenk = []//De array die de geschenk van de lotterij ga bewaren. 
 
 
 do
@@ -36,11 +38,30 @@ for(let i = 1; i <= aantalgeschenk; i++)//Geschenk wordt doorgestuurd naar de ma
     
 }
 
-let totaal = berekenTotaal(geschenkmand);
-console.log("De waarde van je mand is: " + totaal + "Euro.");
-let totaalBTW = berekenTotaalBTW(geschenkmand);
-let totaal_incl_btw = totaal + totaalBTW;
-console.log();
+let totaallotterij = lotterij(geschenkmand, lotterijkans, lotterijgeschenk);
+
+if(lotterijkans[0] == true) 
+{  
+    let totaal = berekenTotaal(geschenkmand);
+    console.log("De waarde van je mand is: " + totaal + " Euro.");
+
+    let totaalBTW = berekenTotaalBTW(geschenkmand);
+    let totaal_incl_btw = totaal + totaalBTW;
+   
+    console.log("Je hebt een geschenk("+ lotterijgeschenk[0] +") gewonnen!");
+    console.log("inclusive btw is dit: " + (totaal_incl_btw - totaallotterij)+ " Euro.");
+}
+else if(lotterijkans[0] == false)
+{  
+    let totaal = berekenTotaal(geschenkmand);
+    console.log("De waarde van je mand is: " + totaal + " Euro.");
+
+    let totaalBTW = berekenTotaalBTW(geschenkmand);
+    let totaal_incl_btw = totaal + totaalBTW;
+    console.log("inclusive btw is dit: " + totaal_incl_btw + " Euro.");
+}
+
+
 
 function vulGeschenkmand(geschenkmand, geschenk)//Geschenk wordt in de mand gestoken.
 {
@@ -112,4 +133,47 @@ function berekenTotaalBTW(geschenkmand)
 
     }
     return(totaalBTW);
+}
+
+function lotterij(geschenkmand, lotterijkans, lotterijgeschenk)
+{
+    let totaal_incl_btw = 0;
+    let kansarray = [];
+    let w = 10;
+    let b = 2;
+    let f = 3;
+    
+    for(let i = 0; i <= 9; i++)//10 getallen van 0 tot 9 worden in het array gestoken.
+    {
+        kansarray.push(i);
+    }
+    
+    let kans = kansarray[Math.floor(Math.random() * kansarray.length)];//neem een wilkeurige getal uit het array.
+    
+    if(kans == 0) // het kans is 1 op 10. het getal moet 0 zijn.
+    {
+        let geschenk = geschenkmand[Math.floor(Math.random() * geschenkmand.length)];
+
+        switch(geschenk)
+        {
+            case "W":
+                totaal_incl_btw = w + (w / 100 * 21); 
+            break;
+            case "B":
+                totaal_incl_btw = b + (b / 100 * 6); 
+            break;
+            case "F":
+                totaal_incl_btw = f + (f / 100 * 12); 
+            break;
+        }
+
+        lotterijkans.push(true);
+        lotterijgeschenk.push(geschenk);
+        return totaal_incl_btw;
+    }
+    else
+    {
+        lotterijkans.push(false);
+    }
+    
 }
