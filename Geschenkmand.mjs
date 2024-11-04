@@ -20,22 +20,7 @@ do
 
 let geschenk;
 
-for(let i = 1; i <= aantalgeschenk; i++)//Geschenk wordt doorgestuurd naar de mand.
-{
-    do 
-    {
-        geschenk = await userInput.question("Welk geschenk kies je? (keuze: W.B.F): ");
-
-        if(geschenk != "W" && geschenk != "B" && geschenk != "F")
-        {
-            console.log("Foutieve invoer probeer opnieuw... ");
-        }
-
-    }while(geschenk != "W" && geschenk != "B" && geschenk != "F");
-
-    vulGeschenkmand(geschenkmand, geschenk);
-    
-}
+await vulGeschenkmand(geschenkmand, geschenk);
 
 let totaal = berekenTotaal(geschenkmand);
 console.log("De waarde van je mand is: " + totaal + " Euro.");
@@ -45,23 +30,38 @@ let totaal_incl_btw = totaal + totaalBTW;
    
 console.log("inclusive btw is dit: " + (totaal_incl_btw )+ " Euro.");
 
-lotterij(geschenkmand, lotterijgeschenk);
 
 
-function vulGeschenkmand(geschenkmand, geschenk)//Geschenk wordt in de mand gestoken.
+
+async function vulGeschenkmand(geschenkmand, geschenk)//Geschenk wordt in de mand gestoken.
 {
-    switch(geschenk)
+    for(let i = 1; i <= aantalgeschenk; i++)//Geschenk wordt doorgestuurd naar de mand.
     {
-        case "W":
-            geschenkmand.push("W");
-        break;
-        case "B":
-            geschenkmand.push("B");
-        break;
-        case "F":
-            geschenkmand.push("F");
-        break;
+        do 
+        {
+            geschenk = await userInput.question("Welk geschenk kies je? (keuze: W.B.F): ");
 
+            if(geschenk != "W" && geschenk != "B" && geschenk != "F")
+            {
+                console.log("Foutieve invoer probeer opnieuw... ");
+            }
+
+        }while(geschenk != "W" && geschenk != "B" && geschenk != "F");
+
+        switch(geschenk)
+        {
+            case "W":
+                geschenkmand.push("W");
+            break;
+            case "B":
+                geschenkmand.push("B");
+            break;
+            case "F":
+                geschenkmand.push("F");
+            break;
+
+        }
+        lotterij(geschenkmand, lotterijgeschenk);   
     }
 
 }
@@ -131,23 +131,9 @@ function lotterij(geschenkmand, lotterijgeschenk)
     
     let kans = kansarray[Math.floor(Math.random() * kansarray.length)];//neem een wilkeurige getal uit het array.
     
-    if(kans == 0 ) // het kans is 1 op 10. het getal moet 0 zijn.
+    if(kans == 0 ) // het kans is 1 op 10.
     {
-        let geschenk = geschenkmand[Math.floor(Math.random() * geschenkmand.length)];
-
-        switch(geschenk)
-        {
-            case "W":
-                lotterijgeschenk.push(geschenk); 
-            break;
-            case "B":
-                lotterijgeschenk.push(geschenk); 
-            break;
-            case "F":
-                lotterijgeschenk.push(geschenk); 
-            break;
-        }
-        console.log("Je hebt een geschenk ("+ lotterijgeschenk[0] +") gewonnen!");
+        console.log("Je hebt een geschenk gewonnen!");
     }
      
 }
